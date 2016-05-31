@@ -7,24 +7,24 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( ! class_exists( 'woocommerce_simple_waiting_list_email' ) ){
+if ( ! class_exists( 'wc_simple_waiting_list_email' ) ){
 
-	class woocommerce_simple_waiting_list_email extends WC_Email {
+	class wc_simple_waiting_list_email extends WC_Email {
 		
 		public function __construct() {
-			$this->id 				= 'woocommerce_simple_waiting_list_email';
-			$this->title 			= __( 'Waiting List', 'woocommerce_simple_waiting_list' );
-			$this->description		= __( 'Send an email to customers when items is in stock', 'woocommerce_simple_waiting_list' );
+			$this->id 				= 'wc_simple_waiting_list_email';
+			$this->title 			= __( 'Waiting List', 'wc_simple_waiting_list' );
+			$this->description		= __( 'Send an email to customers when items is in stock', 'wc_simple_waiting_list' );
 
-			$this->template_base 	= WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_DIR . '/templates/emails/'; 
+			$this->template_base 	= WC_SIMPLE_WAITING_LIST_PLUGIN_DIR . '/templates/emails/'; 
 			$this->template_html 	= 'waiting-list.php';
 			$this->template_plain 	= 'plain/waiting-list.php';
 
-			$this->subject 			= __( '{item} is in stock now!', 'woocommerce_simple_waiting_list' );
-			$this->heading      	= __( '{item} is in stock now!', 'woocommerce_simple_waiting_list' );
+			$this->subject 			= __( '{item} is in stock now!', 'wc_simple_waiting_list' );
+			$this->heading      	= __( '{item} is in stock now!', 'wc_simple_waiting_list' );
 			
 			// Triggers
-			add_action( 'woocommerce_simple_waiting_list_email_send_notification', array( $this, 'trigger' ), 10, 2 );
+			add_action( 'wc_simple_waiting_list_email_send_notification', array( $this, 'trigger' ), 10, 2 );
 
 			// Call parent constructor
 			parent::__construct();
@@ -90,31 +90,31 @@ if ( ! class_exists( 'woocommerce_simple_waiting_list_email' ) ){
 		public function init_form_fields() {
 			$this->form_fields = array(
 				'enabled' => array(
-					'title'         => __( 'Enable/Disable', 'woocommerce_simple_waiting_list' ),
+					'title'         => __( 'Enable/Disable', 'wc_simple_waiting_list' ),
 					'type'          => 'checkbox',
-					'label'         => __( 'Enable this email notification', 'woocommerce_simple_waiting_list' ),
+					'label'         => __( 'Enable this email notification', 'wc_simple_waiting_list' ),
 					'default'       => 'yes'
 				),
 				'subject' => array(
-					'title'         => __( 'Subject', 'woocommerce_simple_waiting_list' ),
+					'title'         => __( 'Subject', 'wc_simple_waiting_list' ),
 					'type'          => 'text',
-					'description'   => sprintf( __( 'This controls the email subject line. Leave blank to use the default subject: <code>%s</code>.', 'woocommerce_simple_waiting_list' ), $this->subject ),
+					'description'   => sprintf( __( 'This controls the email subject line. Leave blank to use the default subject: <code>%s</code>.', 'wc_simple_waiting_list' ), $this->subject ),
 					'placeholder'   => '',
 					'default'       => '',
 					'desc_tip'      => true
 				),
 				'heading' => array(
-					'title'         => __( 'Email Heading', 'woocommerce_simple_waiting_list' ),
+					'title'         => __( 'Email Heading', 'wc_simple_waiting_list' ),
 					'type'          => 'text',
-					'description'   => sprintf( __( 'This controls the main heading contained within the email notification. Leave blank to use the default heading: <code>%s</code>.', 'woocommerce_simple_waiting_list' ), $this->heading ),
+					'description'   => sprintf( __( 'This controls the main heading contained within the email notification. Leave blank to use the default heading: <code>%s</code>.', 'wc_simple_waiting_list' ), $this->heading ),
 					'placeholder'   => '',
 					'default'       => '',
 					'desc_tip'      => true
 				),
 				'email_type' => array(
-					'title'         => __( 'Email type', 'woocommerce_simple_waiting_list' ),
+					'title'         => __( 'Email type', 'wc_simple_waiting_list' ),
 					'type'          => 'select',
-					'description'   => __( 'Choose which format of email to send.', 'woocommerce_simple_waiting_list' ),
+					'description'   => __( 'Choose which format of email to send.', 'wc_simple_waiting_list' ),
 					'default'       => 'html',
 					'class'         => 'email_type wc-enhanced-select',
 					'options'       => $this->get_email_type_options(),
@@ -127,4 +127,4 @@ if ( ! class_exists( 'woocommerce_simple_waiting_list_email' ) ){
 
 }
 
-return new woocommerce_simple_waiting_list_email();
+return new wc_simple_waiting_list_email();

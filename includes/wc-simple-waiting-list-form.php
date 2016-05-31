@@ -8,16 +8,16 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if( ! class_exists( 'woocommerce_simple_waiting_list_form' ) ){
-    class woocommerce_simple_waiting_list_form {
+if( ! class_exists( 'wc_simple_waiting_list_form' ) ){
+    class wc_simple_waiting_list_form {
         protected $current_product = false;
 
     	public function __construct() {
-            add_action( 'woocommerce_before_single_product', array( $this, 'woocommerce_simple_waiting_list_box' ) );
+            add_action( 'woocommerce_before_single_product', array( $this, 'wc_simple_waiting_list_box' ) );
             
     	}
 
-        public function woocommerce_simple_waiting_list_box(){
+        public function wc_simple_waiting_list_box(){
             global $post;
 
             if( get_post_type( $post->ID ) == 'product' && is_product() ) {
@@ -29,16 +29,16 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_form' ) ){
                 }
 
                 if( $this->current_product->product_type == 'variable' ){
-                    add_action( 'woocommerce_stock_html', array( $this, 'woocommerce_simple_waiting_list_box_details' ), 20, 3 );
+                    add_action( 'woocommerce_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 3 );
                 }
                 else {
-                    add_action( 'woocommerce_stock_html', array( $this, 'woocommerce_simple_waiting_list_box_details' ), 20, 2 );
+                    add_action( 'woocommerce_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 2 );
                 }
             }
         }
 
-        public function woocommerce_simple_waiting_list_register($user_email, $product_id) {
-            $waiting_list = get_post_meta( $product_id, WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_META, true );
+        public function wc_simple_waiting_list_register($user_email, $product_id) {
+            $waiting_list = get_post_meta( $product_id, WC_SIMPLE_WAITING_LIST_PLUGIN_META, true );
             if ( ! is_email( $user_email ) || (! empty($waiting_list) && ! is_array( $waiting_list ) )){
                 return false;
             }
@@ -48,12 +48,12 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_form' ) ){
             }
 
             $waiting_list[] = $user_email;
-            update_post_meta($product_id, WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_META, $waiting_list);
+            update_post_meta($product_id, WC_SIMPLE_WAITING_LIST_PLUGIN_META, $waiting_list);
             return true;
         }
 
-        public function woocommerce_simple_waiting_list_deregister($user_email, $product_id) {
-            $waiting_list = get_post_meta( $product_id, WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_META, true );
+        public function wc_simple_waiting_list_deregister($user_email, $product_id) {
+            $waiting_list = get_post_meta( $product_id, WC_SIMPLE_WAITING_LIST_PLUGIN_META, true );
             if ( ! is_email( $user_email ) || (! empty($waiting_list) && ! is_array( $waiting_list ) )){
                 return false;
             }
@@ -64,11 +64,11 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_form' ) ){
 
             $new_waiting_list = array_diff($waiting_list, array($user_email));
 
-            update_post_meta($product_id, WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_META, $new_waiting_list);
+            update_post_meta($product_id, WC_SIMPLE_WAITING_LIST_PLUGIN_META, $new_waiting_list);
             return true;
         }
 
-        public function woocommerce_simple_waiting_list_box_details($html, $availability, $_product = false ) {
+        public function wc_simple_waiting_list_box_details($html, $availability, $_product = false ) {
             global $product;
 
             if( ! $_product ) {
@@ -93,7 +93,7 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_form' ) ){
                     if ( ($user->exists() || isset($_POST['emailaddr'])) && isset($_POST['save'])  )
                     {       
                         $user_email = ( isset( $_POST[ 'emailaddr' ] ) ) ? $_POST[ 'emailaddr' ] : $user->user_email;
-                        $result = $this->woocommerce_simple_waiting_list_register( $user_email, $product_id );
+                        $result = $this->wc_simple_waiting_list_register( $user_email, $product_id );
                         if ($result){
 
                             ?>
@@ -108,7 +108,7 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_form' ) ){
                         if ( ($user->exists() || isset($_POST['emailaddr'])) && isset($_POST['remove'])  )
                         {
                             $user_email = ( isset( $_POST[ 'emailaddr' ] ) ) ? $_POST[ 'emailaddr' ] : $user->user_email;
-                            $result = $this->woocommerce_simple_waiting_list_deregister( $user_email, $product_id );
+                            $result = $this->wc_simple_waiting_list_deregister( $user_email, $product_id );
                         }
                         ?>
                             <form id="mywaitlistform" method="post" action="" class="form" >
@@ -128,5 +128,5 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_form' ) ){
     }
 }
 
-return new woocommerce_simple_waiting_list_form();
+return new wc_simple_waiting_list_form();
 ?>

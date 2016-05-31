@@ -16,7 +16,7 @@ The product you are interested in, %s, is back in stock now.<br />
 [ %s ]<br />
 <br />
 We recommend that you place your order as soon as possible because the popularity of this product may soon result in another out-of-stock condition.
-", 'woocommerce-simple-waiting-list' ), $product_name, $product_url , get_option( 'blogname' ) ); ?>
+", 'wc-simple-waiting-list' ), $product_name, $product_url , get_option( 'blogname' ) ); ?>
 	
 </p>
 

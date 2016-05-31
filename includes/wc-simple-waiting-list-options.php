@@ -8,49 +8,49 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if( ! class_exists( 'woocommerce_simple_waiting_list_options' ) ){
-    class woocommerce_simple_waiting_list_options {
+if( ! class_exists( 'wc_simple_waiting_list_options' ) ){
+    class wc_simple_waiting_list_options {
     	
         public function __construct() {
-            add_action( 'wp_dashboard_setup', array( $this, 'woocommerce_simple_waiting_list_widgets' ) );
-    		add_action( 'admin_menu', array( $this, 'woocommerce_simple_waiting_list_menu' ) );
-            add_action( 'woocommerce_product_set_stock_status', array( __CLASS__, 'woocommerce_simple_waiting_list_email_trigger' ) );
+            add_action( 'wp_dashboard_setup', array( $this, 'wc_simple_waiting_list_widgets' ) );
+    		add_action( 'admin_menu', array( $this, 'wc_simple_waiting_list_menu' ) );
+            add_action( 'woocommerce_product_set_stock_status', array( __CLASS__, 'wc_simple_waiting_list_email_trigger' ) );
     	}
 
-    	public function woocommerce_simple_waiting_list_widgets() {	
-    		wp_add_dashboard_widget( 'woocommerce-simple-waiting-list', 'Waiting List', array( $this, 'woocommerce_simple_waiting_list_dashboard' ) );
+    	public function wc_simple_waiting_list_widgets() {	
+    		wp_add_dashboard_widget( 'wc-simple-waiting-list', 'Waiting List', array( $this, 'wc_simple_waiting_list_dashboard' ) );
     	}
     	
-    	public function woocommerce_simple_waiting_list_dashboard() {
-            $results = $this->get_meta_count( WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_META );
+    	public function wc_simple_waiting_list_dashboard() {
+            $results = $this->get_meta_count( WC_SIMPLE_WAITING_LIST_PLUGIN_META );
             if (! empty($results))
             {
-                $path = 'admin.php?page=woocommerce-simple-waiting-list/woocommerce-simple-waiting-list.php';
+                $path = 'admin.php?page=wc-simple-waiting-list/wc-simple-waiting-list.php';
                 $url = admin_url($path);
                 $link = "<a href='{$url}'>View Details</a>";
                 $output = $results . ' product have a waiting list <br />' .$link;
             }
             else
-                $output = '<li>'.__('N/A', 'woocommerce-simple-waiting-list').'</li>'."\n";
+                $output = '<li>'.__('N/A', 'wc-simple-waiting-list').'</li>'."\n";
            
             echo $output;
         }
 
-        public function woocommerce_simple_waiting_list_menu() {
+        public function wc_simple_waiting_list_menu() {
             add_menu_page(
-                        __( 'Waiting List', 'woocommerce-simple-waiting-list' ),
+                        __( 'Waiting List', 'wc-simple-waiting-list' ),
                         'Waiting List',
                         'manage_options',
-                        'woocommerce-simple-waiting-list/woocommerce-simple-waiting-list.php',
+                        'wc-simple-waiting-list/wc-simple-waiting-list.php',
                         array(
                                 $this,
-                                'woocommerce_simple_waiting_list_page'
+                                'wc_simple_waiting_list_page'
                             )
                     );
         }
 
-        public function woocommerce_simple_waiting_list_page() {
-             $results = $this->get_meta_values( WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_META );
+        public function wc_simple_waiting_list_page() {
+             $results = $this->get_meta_values( WC_SIMPLE_WAITING_LIST_PLUGIN_META );
              ?>
              <style type="text/css">
                 #divTable
@@ -79,7 +79,7 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_options' ) ){
                 }
             </style>
              <div class="wrap">
-                <h2><?php esc_html_e('Waiting List', 'woocommerce-simple-waiting-list') ?></h2>
+                <h2><?php esc_html_e('Waiting List', 'wc-simple-waiting-list') ?></h2>
              <div id="divTable">
                 <div id="divRowHeader">
                      <div id="divCell">
@@ -135,22 +135,22 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_options' ) ){
             return $r;
         }
 
-        public static function woocommerce_simple_waiting_list_email_trigger( $product_id ) {
+        public static function wc_simple_waiting_list_email_trigger( $product_id ) {
             $product = wc_get_product(  $product_id );
             if ( ! $product->managing_stock() && ! $product->is_in_stock() ) {
                 return;
             }
 
-            $waiting_list = get_post_meta( $product_id, WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_META, true );
+            $waiting_list = get_post_meta( $product_id, WC_SIMPLE_WAITING_LIST_PLUGIN_META, true );
             if (  empty($waiting_list) || ! is_array( $waiting_list ) ) {
                 return;
             }
 
             if( is_array( $waiting_list ) ) {
                 foreach( $waiting_list as $key => $user_email ) {
-                    do_action( 'woocommerce_simple_waiting_list_email_send', $product_id,  $user_email);
+                    do_action( 'wc_simple_waiting_list_email_send', $product_id,  $user_email);
                 }
-                $cleaned = delete_post_meta( $product_id, WOOCOMMERCE_SIMPLE_WAITING_LIST_PLUGIN_META );
+                $cleaned = delete_post_meta( $product_id, WC_SIMPLE_WAITING_LIST_PLUGIN_META );
             }
             
         }
@@ -159,5 +159,5 @@ if( ! class_exists( 'woocommerce_simple_waiting_list_options' ) ){
     }
 }
 
-return new woocommerce_simple_waiting_list_options();
+return new wc_simple_waiting_list_options();
 ?>
