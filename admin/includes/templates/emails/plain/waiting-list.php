@@ -1,6 +1,4 @@
 <?php
-
-<?php
 /**
  * Request a Review email template
  *
