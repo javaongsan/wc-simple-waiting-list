@@ -31,11 +31,11 @@ Allows non-registered and registered users to add their email to a waiting list 
 4. Join wating list for unregistered user.
 
 == Changelog ==
-= 1.1 - 29/01/2016 =
+= 1.0.1 - 29/01/2016 =
 * Use Wordpress Plugin boilerplate.
 * Better css table.
 
-= 1.0 =
+= 1.0.0=
 * Initial release.
 
 == Upgrade Notice ==

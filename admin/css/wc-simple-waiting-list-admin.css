@@ -3,27 +3,3 @@
  * included in this file.
  */
 
-   #divTable
-    {
-        display:  table;
-    }
-    #divRowHeader
-    {
-        display: table-row;
-        font-weight: bold;
-        text-align: center;
-       background: #999;
-    }    
-    #divRow
-    {
-        display: table-row;
-    }
-
-    #divCell
-    {
-        display: table-cell;
-        border: solid;
-        border-width: thin;
-        padding-left: 5px;
-        padding-right: 5px;
-    }
