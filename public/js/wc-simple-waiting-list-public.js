@@ -1,32 +1,89 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+	$(function() {
 
+		$("#save").live('click',function(){
+			var product_id = $(this).data('product-id');
+			var user_email = $("#emailaddr").val();
+
+			if ($.trim(user_email).length == 0)
+				user_email = $(this).data('user-email');
+
+			if ($.trim(user_email).length == 0 || $.trim(product_id).length == 0)
+			{
+				alert('An Error Has Occur!');
+				return false;
+			}
+
+			if (!validateEmail(user_email)) {
+				alert('Invalid Email Address');
+				return false;
+			}
+
+			$("#emailaddr").hide()
+			$("#save").hide();
+
+			var post_data = {
+				action: 'wc_simple_waiting_list_user_add',
+				product_id: product_id,
+				user_email: user_email,
+				wc_simple_waiting_list_nonce: wc_simple_waiting_list_vars.nonce
+			};
+
+			$.post(wc_simple_waiting_list_vars.ajaxurl, post_data, function(response) {
+				if(response == 'success') {
+					$("#remove").show()
+				} else {
+					$("#emailaddr").show()
+					$("#save").show();
+					alert(wc_simple_waiting_list_vars.error_message);
+				}
+			});
+			return false;
+		});
+
+		$("#remove").live('click',function(){
+			var product_id = $(this).data('product-id');
+			var user_email = $("#emailaddr").val();
+
+			if ($.trim(user_email).length == 0)
+				user_email = $(this).data('user-email');
+
+			if ($.trim(user_email).length == 0 || $.trim(product_id).length == 0)
+			{
+				alert('An Error Has Occur!');
+				return false;
+			}
+			$("#remove").hide()
+
+			var post_data = {
+				action: 'wc_simple_waiting_list_user_del',
+				product_id: product_id,
+				user_email: user_email,
+				wc_simple_waiting_list_nonce: wc_simple_waiting_list_vars.nonce
+			};
+
+			$.post(wc_simple_waiting_list_vars.ajaxurl, post_data, function(response) {
+				if(response == 'success') {
+						$("#save").show()
+						$("#emailaddr").show();
+				} else {
+					$("#remove").show()
+					alert(wc_simple_waiting_list_vars.error_message);
+				}
+			});
+			return false;
+		});
+	});
+
+	function validateEmail(sEmail) {
+		var filter = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+		if (filter.test(sEmail)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 })( jQuery );

@@ -100,7 +100,14 @@ class Wc_Simple_Waiting_List_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wc-simple-waiting-list-public.js', array( 'jquery' ), $this->version, false );
-
+        wp_localize_script( $this->plugin_name, 'wc_simple_waiting_list_vars', 
+                array( 
+                    'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                    'nonce' => wp_create_nonce('wc-simple-waiting-list-nonce'),
+                    'already_inserted_message' => __('You are already on the list.', 'wc_simple_waiting_list'),
+                    'error_message' => __('Sorry, there was a problem processing your request.', 'wc_simple_waiting_list')
+                ) 
+            );  
 	}
 
 	public function wc_simple_waiting_list_box(){
@@ -145,9 +152,9 @@ class Wc_Simple_Waiting_List_Public {
         if  ( ! empty($waiting_list) && in_array( $user_email, $waiting_list ) ) {
             return true;
         }
-
         $waiting_list[] = $user_email;
         update_post_meta($product_id, $this->metakey, $waiting_list);
+
         return true;
     }
 
@@ -160,46 +167,32 @@ class Wc_Simple_Waiting_List_Public {
         if  ( ! in_array( $user_email, $waiting_list ) ) {
             return true;
         }
-
         $new_waiting_list = array_diff($waiting_list, array($user_email));
         update_post_meta($product_id, $this->metakey, $new_waiting_list);
         return true;
     }
 
-    public function wc_simple_waiting_list_box_join()
-    {
-        ?>
-        <div class="wrap">
-            <form id="mywaitlistform" method="post" action="" class="form" >
-                <input type="submit" name="save" value="Join Waiting List">
-            </form>
-        </div>
-        <?php
+    public function wc_simple_waiting_list_add_user(){
+        if ( isset( $_POST['user_email'] ) &&  isset( $_POST['product_id'] ) && wp_verify_nonce($_POST['wc_simple_waiting_list_nonce'], 'wc-simple-waiting-list-nonce') ) {
+            if ($this->wc_simple_waiting_list_register( $_POST['user_email'],  $_POST['product_id'] )) 
+                echo 'success';
+            else
+                echo 'fail';
+        }
+        die();
     }
 
-    public function wc_simple_waiting_list_box_join_unreg()
-    {
-        ?>
-        <div class="wrap">
-            <form id="mywaitlistform" method="post" action="" class="form" >
-                <input type="email" name="emailaddr" id="emailaddr" value="" placeholder="You email address" /><br /><br />
-                <input type="submit" name="save" value="Join Waiting List">
-            </form>
-        </div>
-        <?php
+    public function wc_simple_waiting_list_del_user(){
+        if ( isset( $_POST['user_email'] ) &&  isset( $_POST['product_id'] ) && wp_verify_nonce($_POST['wc_simple_waiting_list_nonce'], 'wc-simple-waiting-list-nonce') ) {
+            if ($this->wc_simple_waiting_list_deregister( $_POST['user_email'],  $_POST['product_id'] )) 
+                echo 'success';
+            else
+                echo 'fail';
+        }
+        die();
     }
 
-    public function wc_simple_waiting_list_box_leave($user_email)
-    {
-        ?>
-        <div class="wrap">
-            <form id="mywaitlistform" method="post" action="" class="form" >
-                <input type="hidden" name="emailaddr" id="emailaddr" value=" <?php echo $user_email ?>" placeholder="You email address" /><br /><br />
-                <input type="submit" name="remove" value="Leave Waiting List">
-            </form>
-        </div>
-        <?php
-    }
+    
 
     public function wc_simple_waiting_list_box_details($html, $availability, $_product = false ) {
         global $product;
@@ -216,31 +209,21 @@ class Wc_Simple_Waiting_List_Public {
         $product_type   = $_product->product_type;
         $product_id     = ( $product_type == 'simple' ) ? $_product->id : $_product->variation_id;
        
-        $url            = ( $product_type == 'simple' ) ? get_permalink( $_product->id ) : get_permalink( $_product->parent->id );
- 
-        $user_email = ( isset( $_POST[ 'emailaddr' ] ) ) ? $_POST[ 'emailaddr' ] : $user->user_email;
-        $user_email = str_replace(' ', '', $user_email );
+        $box = '<div class="wrap">';
+        
+        $addstyle = "display:none";
+        $removestyle = "display:none";
+        if ($this->wc_simple_waiting_list_isregister( $user->user_email, $product_id ))
+            $removestyle = "display:block";
+        else
+            $addstyle = "display:block";
 
-        if ( isset($_POST['save']) ) {       
-            $result = $this->wc_simple_waiting_list_register( $user_email, $product_id );
-        }
-        else if ( isset($_POST['remove']) )
-        {
-            $result = $this->wc_simple_waiting_list_deregister( $user_email, $product_id );
-        }
-            
-        
-        if ($this->wc_simple_waiting_list_isregister( $user_email, $product_id )) {
-            $this->wc_simple_waiting_list_box_leave( $user_email );
-            return;
-        }
-        
-        if ( $user->exists() ) { 
-            $this->wc_simple_waiting_list_box_join();
-        } 
-        else {
-            $this->wc_simple_waiting_list_box_join_unreg();
-        }
+        $box .='<input type="submit" name="remove" id="remove" style="'. $removestyle . '" data-user-email="'.  $user->user_email . '" data-product-id="'. $product_id . '" value="Leave Waiting List">';              
+        if ( ! $user->exists() )
+            $box .= '<input type="text" name="emailaddr" id="emailaddr" style="'. $addstyle . '" placeholder="You email address" /><br /><br />';
+        $box .= '<input type="submit" name="save" id="save" style="'. $addstyle . '" data-user-email="'. $user->user_email . '" data-product-id="'. $product_id . '" value="Join Waiting List">';
+        $box .= '</div>';  
+        echo $box;                     
     }
 
 }

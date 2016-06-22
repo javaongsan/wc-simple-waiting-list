@@ -16,7 +16,7 @@
  * Plugin Name:       WC Simple Waiting List
  * Plugin URI:        http://imakeplugins.com/wc-simple-waiting-list/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            Bob Ong
  * Author URI:        http://imakeplugins.com
  * License:           GPL-3.0+
@@ -30,6 +30,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+if ( ! defined( 'WC_SIMPLE_WAITING_LIST_MAIN_PATH' ) ){
+	define( 'WC_SIMPLE_WAITING_LIST_MAIN_PATH', plugin_dir_path( __FILE__ )  );
+}
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-wc-simple-waiting-list-activator.php

@@ -179,6 +179,10 @@ class Wc_Simple_Waiting_List {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_ajax_wc_simple_waiting_list_user_add', 			$plugin_public, 'wc_simple_waiting_list_add_user' );
+		$this->loader->add_action( 'wp_ajax_nopriv_wc_simple_waiting_list_user_add', 	$plugin_public, 'wc_simple_waiting_list_add_user' );
+		$this->loader->add_action( 'wp_ajax_wc_simple_waiting_list_user_del', 			$plugin_public, 'wc_simple_waiting_list_del_user' );
+		$this->loader->add_action( 'wp_ajax_nopriv_wc_simple_waiting_list_user_del', 	$plugin_public, 'wc_simple_waiting_list_del_user' );
 		$this->loader->add_action( 'woocommerce_before_single_product', $plugin_public, 'wc_simple_waiting_list_box' );
 	}
 

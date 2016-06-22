@@ -3,3 +3,31 @@
  * included in this file.
  */
 
+ #reminders table.shop_table {
+    border: 1px solid rgba(0, 0, 0, .1);
+    margin: 0 -1px 24px 0;
+    text-align: left;
+    width: 100%;
+    border-collapse: separate;
+    border-radius: 5px;
+}
+ #reminders table.shop_table th {
+    font-weight: 700;
+    padding: 9px 12px;
+    background-color: #ccc;
+}
+ #reminders table.shop_table td {
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    padding: 6px 12px;
+    vertical-align: middle;
+}
+ #reminders table.shop_table td small {
+    font-weight: 400;
+}
+ #reminders table.shop_table tbody:first-child tr:first-child td,  #reminders table.shop_table tbody:first-child tr:first-child th {
+    border-top: 0;
+}
+ #reminders table.shop_table tbody th,  #reminders table.shop_table tfoot td,  #reminders table.shop_table tfoot th {
+    font-weight: 700;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+}

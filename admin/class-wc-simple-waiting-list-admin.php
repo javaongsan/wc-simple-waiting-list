@@ -106,7 +106,6 @@ class Wc_Simple_Waiting_List_Admin {
 	public function wc_simple_waiting_list_class( $emails ) {
 		require_once( 'includes/class-wc-simple-waiting-list-email.php' );
 		$emails['Wc_Simple_Waiting_List_Email'] =  new Wc_Simple_Waiting_List_Email();
-		error_log(print_r($emails, true));
 		return $emails;
 	}
 	
@@ -185,76 +184,46 @@ class Wc_Simple_Waiting_List_Admin {
 
         if( is_array( $waiting_list ) ) {
             foreach( $waiting_list as $key => $user_email ) {
-            	error_log('wc_simple_waiting_list_email_send->' . $product_id . ',  ' . $user_email);
                 do_action('class_wc_simple_waiting_list_email_send', $product_id,  $user_email);
             }
             $cleaned = delete_post_meta( $product_id, $this->metakey );
         }
     }
         
-	public function wc_simple_waiting_list_page_old() {
-	    $results = $this->get_meta_values( $this->metakey );
-	    ?>
-	    <div class="wrap">
-	        <h2><?php esc_html_e('Waiting List', 'wc-simple-waiting-list') ?></h2>
-		     <div id="divTable">
-		        <div id="divRowHeader">
-		             <div id="divCell">
-		                Product
-		             </div>
-		              <div id="divCell">
-		             No. of People on Waiting List</td></tr>
-		              </div>
-		        </div>
-		     <?php
-		     foreach ($results as $data) {
-		         $product = new WC_product($data->ID);
-		           echo '<div id="divRow">
-		             <div id="divCell">';
-		           echo $product->post->post_title;
-		           echo '</div>
-		              <div id="divCell">';
-		           echo  count(unserialize($data->Value)); 
-		           echo '</div>
-		        </div>';
-		     }
-		    ?>
-	    </div>
-	    
-	<?php
-	}
-
 	public function wc_simple_waiting_list_page() {
 	    $results = $this->get_meta_values( $this->metakey );
 	    ?>
 	    <div class="wrap">
 			<h1><?php _e( 'Waiting List', 'wc-simple-waiting-list' ); ?></h1>
 			<br class="clear" />
-			<div id="col-container">
-					<div class="col-wrap">
-						<table class="widefat attributes-table wp-list-table ui-sortable" style="width:100%">
-							<thead>
-								<tr>
-									<th scope="col"><?php _e( 'Product', 'wc-simple-waiting-list' ); ?></th>
-									<th scope="col"><?php _e( 'No. of People Joined', 'wc-simple-waiting-list' ); ?></th>
-								</tr>
-							</thead>
-							<tbody>
-							     <?php
-							     foreach ($results as $data) {
-							         $product = new WC_product($data->ID);
-							           echo '<tr><td>';
-							           echo $product->post->post_title;
-							           echo '</td><td>';
-							           echo  count(unserialize($data->Value)); 
-							           echo '</td></tr>';
-							     }
-							    ?>
-	   						</tbody>
-						</table>
-					</div>
-				</div>
+			<div id="reminders">
+				<table class="shop_table shop_table_responsive">
+					<thead>
+						<tr>
+							<th scope="col"><?php _e( 'Product', 'wc-simple-waiting-list' ); ?></th>
+							<th scope="col"><?php _e( 'No. of People Joined', 'wc-simple-waiting-list' ); ?></th>
+							<th scope="col"><?php _e( 'Emails', 'wc-simple-waiting-list' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+					     <?php
+					     foreach ($results as $data) {
+					         $product = new WC_product($data->ID);
+					           echo '<tr><td>';
+					           echo $product->post->post_title;
+					           echo '</td><td>';
+					           echo  count(unserialize($data->Value)); 
+					           echo '</td><td>';
+					           foreach (unserialize($data->Value) as $emails) {
+					           	echo $emails . '<br>'; 
+					           }
+					           echo '</td></tr>';
+					     }
+					    ?>
+						</tbody>
+				</table>
 			</div>
+		</div>
 	<?php
 	}
 }

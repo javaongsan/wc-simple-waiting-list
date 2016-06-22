@@ -4,11 +4,11 @@ Donate link: http://imakeplugins.com/
 Tags: ecommerce
 Requires at least: 4.5
 Tested up to: 4.5.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A woocommerce extension to allow out of sotck products to have a waiting list for registered and non-registered users.
+A woocommerce extension to allow out of stock products to have a waiting list for registered and non-registered users.
 
 == Description ==
 
@@ -31,7 +31,11 @@ Allows non-registered and registered users to add their email to a waiting list 
 4. Join wating list for unregistered user.
 
 == Changelog ==
-= 1.0.1 - 29/01/2016 =
+= 1.0.2 - 22/06/2016 =
+* add ajax.
+* add email to admin list table
+
+= 1.0.1 - 29/05/2016 =
 * Use Wordpress Plugin boilerplate.
 * Better css table.
 

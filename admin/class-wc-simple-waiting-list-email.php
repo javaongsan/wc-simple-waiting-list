@@ -27,7 +27,7 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 		$this->title 			= __( 'Waiting List', 'wc_simple_waiting_list' );
 		$this->description		= __( 'Send an email to customers when items is in stock', 'wc_simple_waiting_list' );
 
-		$this->template_base 	= plugin_dir_path( __FILE__ ) . '/templates/emails/'; 
+		$this->template_base 	= WC_SIMPLE_WAITING_LIST_MAIN_PATH . '/woocommerce/emails/'; 
 		$this->template_html 	= 'waiting-list.php';
 		$this->template_plain 	= 'plain/waiting-list.php';
 
@@ -43,8 +43,6 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 	}
 
 	public function trigger( $product_id,  $user_email) {
-		error_log('trigger');
-		
 		$product   = wc_get_product( $product_id );
 		if ( ! is_object( $product ) ) {
 			return;
@@ -63,6 +61,7 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 		}
 
 		$this->send( $user_email , $this->get_subject(), $this->format_string( $this->get_content() ), $this->get_headers(), $this->get_attachments() );
+		}
 	}
 
 	/**
