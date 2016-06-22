@@ -61,7 +61,6 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 		}
 
 		$this->send( $user_email , $this->get_subject(), $this->format_string( $this->get_content() ), $this->get_headers(), $this->get_attachments() );
-		}
 	}
 
 	/**
