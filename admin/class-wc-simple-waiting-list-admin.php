@@ -104,7 +104,7 @@ class Wc_Simple_Waiting_List_Admin {
 	}
 
 	public function wc_simple_waiting_list_class( $emails ) {
-		require_once( 'includes/class-wc-simple-waiting-list-email.php' );
+		require_once( 'class-wc-simple-waiting-list-email.php' );
 		$emails['Wc_Simple_Waiting_List_Email'] =  new Wc_Simple_Waiting_List_Email();
 		return $emails;
 	}
