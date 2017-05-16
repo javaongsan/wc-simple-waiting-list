@@ -117,15 +117,15 @@ class Wc_Simple_Waiting_List_Public {
 
             $this->current_product = wc_get_product( $post->ID );
 
-            if ( $this->current_product->product_type == 'grouped' ) {
+            if ( $this->current_product->get_type() == 'grouped' ) {
                 return;
             }
 
-            if( $this->current_product->product_type == 'variable' ){
-                add_action( 'woocommerce_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 3 );
+            if( $this->current_product->get_type() == 'variable' ){
+                add_action( 'woocommerce_get_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 3 );
             }
             else {
-                add_action( 'woocommerce_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 2 );
+                add_action( 'woocommerce_get_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 2 );
             }
         }
     }
@@ -192,7 +192,6 @@ class Wc_Simple_Waiting_List_Public {
         die();
     }
 
-    
 
     public function wc_simple_waiting_list_box_details($html, $availability, $_product = false ) {
         global $product;
@@ -206,11 +205,9 @@ class Wc_Simple_Waiting_List_Public {
         }
 
         $user           = wp_get_current_user();
-        $product_type   = $_product->product_type;
-        $product_id     = ( $product_type == 'simple' ) ? $_product->id : $_product->variation_id;
-       
+        $product_type   = $_product->get_type();
+        $product_id     = ( $product_type == 'simple' ) ? $_product->get_id() : $_product->variation_id;
         $box = '<div class="wrap">';
-        
         $addstyle = "display:none";
         $removestyle = "display:none";
         if ($this->wc_simple_waiting_list_isregister( $user->user_email, $product_id ))
@@ -218,12 +215,12 @@ class Wc_Simple_Waiting_List_Public {
         else
             $addstyle = "display:block";
 
-        $box .='<input type="submit" name="remove" id="remove" style="'. $removestyle . '" data-user-email="'.  $user->user_email . '" data-product-id="'. $product_id . '" value="Leave Waiting List">';              
+        $box .='<input type="submit" name="remove" id="remove" style="'. $removestyle . '" data-user-email="'.  $user->user_email . '" data-product-id="'. $product_id . '" value="Leave Waiting List">';
         if ( ! $user->exists() )
             $box .= '<input type="text" name="emailaddr" id="emailaddr" style="'. $addstyle . '" placeholder="You email address" /><br /><br />';
         $box .= '<input type="submit" name="save" id="save" style="'. $addstyle . '" data-user-email="'. $user->user_email . '" data-product-id="'. $product_id . '" value="Join Waiting List">';
-        $box .= '</div>';  
-        echo $box;                     
+        $box .= '</div>';
+        echo $box;
     }
 
 }

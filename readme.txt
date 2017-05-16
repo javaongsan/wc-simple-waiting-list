@@ -4,7 +4,7 @@ Donate link: http://imakeplugins.com/
 Tags: ecommerce
 Requires at least: 4.5
 Tested up to: 4.7.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,11 +14,13 @@ A woocommerce extension to allow customers to leave their email address on a wai
 
 Allows customers to leave their email on a waiting list for out-of-stock products. When product is back in stock, an automatic email is send to the customers on the waiting list.
 
+[youtube https://youtu.be/w4zklRNPwy4]
+
 == FEATURES AND OPTIONS: ==
 Allows customers to leave their email address without having to register.
-Dashboard widget display the total number of product that have a waiting list.
+Dashboard widget displays the total number of products that has a waiting list.
 Separate page to list all product and the number of people on waiting list.
-Automatically sends email to cusomters as soon as product arrives in stock.
+Automatically sends an email to customers as soon as the product arrives in stock.
 
 
 == Installation ==
@@ -44,6 +46,9 @@ Unlimited as many as woocommerce can support
 4. Join wating list for unregistered user.
 
 == Changelog ==
+= 1.0.4 - 22/07/2016 =
+* fix deprecated woocommerce functions.
+
 = 1.0.3 - 22/07/2016 =
 * fix error cannot find email class.
 
