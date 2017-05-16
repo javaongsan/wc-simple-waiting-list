@@ -3,16 +3,22 @@ Contributors: wizcoder
 Donate link: http://imakeplugins.com/
 Tags: ecommerce
 Requires at least: 4.5
-Tested up to: 4.7
+Tested up to: 4.7.4
 Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A woocommerce extension to allow out of stock products to have a waiting list for registered and non-registered users.
+A woocommerce extension to allow customers to leave their email address on a waiting list for out of stock products.
 
 == Description ==
 
-Allows non-registered and registered users to add their email to a waiting list for out-of-stock products. When product is back in stock, an automatic email is send to waiting list. Includes a waiting list page to list all product and the number of people on waiting list and a dashboard widget display the total number of product that have a waiting list
+Allows customers to leave their email on a waiting list for out-of-stock products. When product is back in stock, an automatic email is send to the customers on the waiting list.
+
+== FEATURES AND OPTIONS: ==
+Allows customers to leave their email address without having to register.
+Dashboard widget display the total number of product that have a waiting list.
+Separate page to list all product and the number of people on waiting list.
+Automatically sends email to cusomters as soon as product arrives in stock.
 
 
 == Installation ==
@@ -21,7 +27,14 @@ Allows non-registered and registered users to add their email to a waiting list 
 2. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Frequently Asked Questions ==
-.
+
+= How to setup? =
+
+Just activate the plugin & you are done.
+
+= How many waiting list can I have? =
+
+Unlimited as many as woocommerce can support
 
 
 == Screenshots ==
