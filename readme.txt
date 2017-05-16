@@ -1,7 +1,7 @@
 === WC Simple Waiting List ===
 Contributors: wizcoder
 Donate link: http://imakeplugins.com/
-Tags: ecommerce
+Tags: out of stock, stock notification, waiting email list, waiting list, woocommerce waiting, email notification, waitlist
 Requires at least: 4.5
 Tested up to: 4.7.4
 Stable tag: 1.0.4
@@ -62,11 +62,3 @@ Unlimited as many as woocommerce can support
 
 = 1.0.0=
 * Initial release.
-
-== Upgrade Notice ==
-NO Upgrade
-
-== Arbitrary section ==
-.
-
-== A brief Markdown Example ==
