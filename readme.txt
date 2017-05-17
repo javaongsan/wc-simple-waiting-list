@@ -1,9 +1,9 @@
 === WC Simple Waiting List ===
 Contributors: wizcoder
-Donate link: http://imakeplugins.com/
+Donate link: https://goo.gl/F7TLZr
 Tags: out of stock, stock notification, waiting email list, waiting list, woocommerce waiting, email notification, waitlist
 Requires at least: 4.5
-Tested up to: 4.7.4
+Tested up to: 4.7.5
 Stable tag: 1.0.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
