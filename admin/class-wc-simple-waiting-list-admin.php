@@ -100,7 +100,14 @@ class Wc_Simple_Waiting_List_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wc-simple-waiting-list-admin.js', array( 'jquery' ), $this->version, false );
-
+		wp_localize_script( $this->plugin_name, 'wc_simple_waiting_list_admin_vars',
+			array(
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'nonce' => wp_create_nonce( 'wc-simple-waiting-list-nonce' ),
+				'already_inserted_message' => __( 'You have already added this item.', 'class_wc_simple_waiting_list' ),
+				'error_message' => __( 'Sorry, there was a problem processing your request.', 'class_wc_simple_waiting_list' )
+			)
+		);
 	}
 
 	public function wc_simple_waiting_list_class( $emails ) {
@@ -108,27 +115,25 @@ class Wc_Simple_Waiting_List_Admin {
 		$emails['Wc_Simple_Waiting_List_Email'] =  new Wc_Simple_Waiting_List_Email();
 		return $emails;
 	}
-	
+
 	public function wc_simple_waiting_list_mailer() {
 		add_action( 'class_wc_simple_waiting_list_email_send', array( 'WC_Emails', 'send_transactional_email' ), 10, 2 );
 	}
 
-	public function wc_simple_waiting_list_widgets() {	
+	public function wc_simple_waiting_list_widgets() {
 		wp_add_dashboard_widget( 'wc-simple-waiting-list', 'Waiting List', array( $this, 'wc_simple_waiting_list_dashboard' ) );
 	}
 
 	public function wc_simple_waiting_list_dashboard() {
         $results = $this->get_meta_count( $this->metakey );
-        if (! empty($results))
-        {
+        if ( ! empty( $results ) ) {
             $path = 'admin.php?page=wc-simple-waiting-list/wc-simple-waiting-list.php';
             $url = admin_url($path);
             $link = "<a href='{$url}'>View Details</a>";
             $output = $results . ' product have a waiting list <br />' .$link;
-        }
-        else
+        } else {
             $output = '<li>'.__('N/A', 'wc-simple-waiting-list').'</li>'."\n";
-       
+        }
         echo $output;
     }
 
@@ -148,7 +153,7 @@ class Wc_Simple_Waiting_List_Admin {
     public function get_meta_values( $key = '') {
         global $wpdb;
 
-        if( empty( $key ) )
+        if ( empty( $key ) )
             return;
 
         $r = $wpdb->get_results( $wpdb->prepare( "
@@ -161,7 +166,7 @@ class Wc_Simple_Waiting_List_Admin {
     public function get_meta_count( $key = '') {
         global $wpdb;
 
-        if( empty( $key ) )
+        if ( empty( $key ) )
             return;
 
         $r = $wpdb->get_var( $wpdb->prepare( "
@@ -178,23 +183,24 @@ class Wc_Simple_Waiting_List_Admin {
         }
 
         $waiting_list = get_post_meta( $product_id, $this->metakey, true );
-        if (  empty($waiting_list) || ! is_array( $waiting_list ) ) {
+        if (  empty( $waiting_list ) || ! is_array( $waiting_list ) ) {
             return;
         }
 
-        if( is_array( $waiting_list ) ) {
+        if ( is_array( $waiting_list ) ) {
             foreach( $waiting_list as $key => $user_email ) {
-                do_action('class_wc_simple_waiting_list_email_send', $product_id,  $user_email);
+                do_action( 'class_wc_simple_waiting_list_email_send', $product_id,  $user_email );
             }
             $cleaned = delete_post_meta( $product_id, $this->metakey );
         }
     }
-        
+
 	public function wc_simple_waiting_list_page() {
 	    $results = $this->get_meta_values( $this->metakey );
 	    ?>
 	    <div class="wrap">
 			<h1><?php _e( 'Waiting List', 'wc-simple-waiting-list' ); ?></h1>
+			<a href='#/' class='exportreminders button' > Export </a>
 			<br class="clear" />
 			<div id="reminders">
 				<table class="shop_table shop_table_responsive">
@@ -206,24 +212,70 @@ class Wc_Simple_Waiting_List_Admin {
 						</tr>
 					</thead>
 					<tbody>
-					     <?php
-					     foreach ($results as $data) {
-					         $product = new WC_product($data->ID);
-					           echo '<tr><td>';
-					           echo $product->post->post_title;
-					           echo '</td><td>';
-					           echo  count(unserialize($data->Value)); 
-					           echo '</td><td>';
-					           foreach (unserialize($data->Value) as $emails) {
-					           	echo $emails . '<br>'; 
-					           }
-					           echo '</td></tr>';
-					     }
+					    <?php
+					    foreach ( $results as $data ) {
+							$product = new WC_product( $data->ID );
+							echo '<tr><td>';
+							echo $product->get_name();
+							echo '</td><td>';
+							echo  count( unserialize( $data->Value ) );
+							echo '</td><td>';
+							foreach ( unserialize( $data->Value ) as $emails ) {
+								echo $emails . '<br>';
+							}
+							echo '</td></tr>';
+					    }
 					    ?>
 						</tbody>
 				</table>
+			<div id='Results'></div>
 			</div>
 		</div>
 	<?php
+	}
+
+	public function wc_simple_waiting_list_export_csv() {
+		if ( wp_verify_nonce( $_POST['wc_simple_waiting_list_nonce'], 'wc-simple-waiting-list-nonce' ) ) {
+			$results = $this->wc_simple_waiting_list_export_reminders();
+			if ( $results ) {
+				echo $results;
+			} else {
+				echo 'fail';
+			}
+		}
+		die();
+	}
+
+	public function wc_simple_waiting_list_export_reminders() {
+		$header = array();
+		$header[] = 'Product';
+		$header[] = 'No. of People Joined';
+		$header[] = 'Emails';
+
+		$data = $this->get_meta_values( $this->metakey );
+		$upload_dir = get_upload_folder();
+
+		$filename = '/waiting-list-' .  date( 'Y-m-d-h:i:s', current_time( 'timestamp' ) ).'.csv';
+
+		$download= $upload_dir['url'] . $filename;
+		generatecsv( $upload_dir['path'] . $filename, $data, $header );
+		return $download;
+	}
+
+	private function get_upload_folder() {
+		$year = date( 'Y' );
+		$month = date( 'm' );
+		$time = $year . '/' . $month;
+		$upload_dir = wp_upload_dir($time);
+		return $upload_dir;
+	}
+
+	private  function generatecsv( $filename, $data, $header = array(), $delimiter = ',', $enclosure = '"' ) {
+		$fp = fopen( $filename, 'w' );
+		fputcsv( $fp, $header, $delimiter, $enclosure );
+		foreach ( $data as $row ) {
+			fputcsv( $fp, $row, $delimiter, $enclosure );
+		}
+		fclose( $fp );
 	}
 }

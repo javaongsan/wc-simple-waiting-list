@@ -217,7 +217,7 @@ class Wc_Simple_Waiting_List_Public {
 
         $box .='<input type="submit" name="remove" id="remove" style="'. $removestyle . '" data-user-email="'.  $user->user_email . '" data-product-id="'. $product_id . '" value="Leave Waiting List">';
         if ( ! $user->exists() )
-            $box .= '<input type="text" name="emailaddr" id="emailaddr" style="'. $addstyle . '" placeholder="You email address" /><br /><br />';
+            $box .= '<input type="text" name="emailaddr" id="emailaddr" style="'. $addstyle . '" placeholder="Your email address" /><br /><br />';
         $box .= '<input type="submit" name="save" id="save" style="'. $addstyle . '" data-user-email="'. $user->user_email . '" data-product-id="'. $product_id . '" value="Join Waiting List">';
         $box .= '</div>';
         echo $box;

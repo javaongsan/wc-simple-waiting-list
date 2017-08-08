@@ -21,7 +21,7 @@
  */
 
 class Wc_Simple_Waiting_List_Email extends WC_Email {
-	
+
 	public function __construct() {
 		$this->id 				= 'wc_simple_waiting_list_email';
 		$this->title 			= __( 'Waiting List', 'wc_simple_waiting_list' );
@@ -33,10 +33,10 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 
 		$this->subject 			= __( '{item} is in stock now!', 'wc_simple_waiting_list' );
 		$this->heading      	= __( '{item} is in stock now!', 'wc_simple_waiting_list' );
-		
+
 		// Triggers
 		add_action( 'class_wc_simple_waiting_list_email_send_notification', array( $this, 'trigger' ), 10, 2 );
-					 
+
 		// Call parent constructor
 		parent::__construct();
 
@@ -44,10 +44,10 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 
 	public function trigger( $product_id,  $user_email) {
 		$product   = wc_get_product( $product_id );
-		if ( ! is_object( $product ) ) {
+		if ( ! $product || ! is_object( $product ) ) {
 			return;
 		}
-	
+
 		if ( $product ) {
 			$this->object 		= $product;
 			$this->recipient	= $user_email;
@@ -72,7 +72,7 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 	public function get_content_html() {
 		return wc_get_template_html( $this->template_html, array(
 			'product_name' 		=> $this->object->get_title(),
-			'product_url' 		=> get_permalink( $this->object->id ),
+			'product_url' 		=> get_permalink( $this->object->get_id() ),
 			'email_heading' => $this->get_heading(),
 			'sent_to_admin' => true,
 			'plain_text'    => false,
@@ -88,7 +88,7 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 	public function get_content_plain() {
 		return wc_get_template_html( $this->template_plain, array(
 			'product_name' 		=> $this->object->get_title(),
-			'product_url' 		=> get_permalink( $this->object->id ),
+			'product_url' 		=> get_permalink( $this->object->get_id() ),
 			'email_heading' => $this->get_heading(),
 			'sent_to_admin' => true,
 			'plain_text'    => true,

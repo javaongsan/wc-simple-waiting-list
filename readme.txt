@@ -3,8 +3,8 @@ Contributors: wizcoder
 Donate link: https://goo.gl/F7TLZr
 Tags: out of stock, stock notification, waiting email list, waiting list, woocommerce waiting, email notification, waitlist
 Requires at least: 4.5
-Tested up to: 4.7.5
-Stable tag: 1.0.5
+Tested up to: 4.8.1
+Stable tag: 1.0.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -46,6 +46,10 @@ Unlimited as many as woocommerce can support
 4. Join wating list for unregistered user.
 
 == Changelog ==
+= 1.0.6 - 19/05/2017 =
+* added export functions.
+* fix woocommerce depreeacted functions.
+
 = 1.0.5 - 17/05/2017 =
 * fix deprecated woocommerce functions.
 

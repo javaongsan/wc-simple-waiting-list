@@ -122,7 +122,6 @@ class Wc_Simple_Waiting_List {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wc-simple-waiting-list-public.php';
 
-
 		$this->loader = new Wc_Simple_Waiting_List_Loader();
 
 	}
@@ -160,10 +159,12 @@ class Wc_Simple_Waiting_List {
 		$this->loader->add_action( 'woocommerce_product_set_stock_status', $plugin_admin, 'wc_simple_waiting_list_email_trigger' );
 
 		$this->loader->add_action( 'woocommerce_init', $plugin_admin, 'wc_simple_waiting_list_mailer' );
-		$this->loader->add_filter( 'woocommerce_email_classes', $plugin_admin, 'wc_simple_waiting_list_class');
+		$this->loader->add_filter( 'woocommerce_email_classes', $plugin_admin, 'wc_simple_waiting_list_class' );
 
 		$this->loader->add_action( 'wp_dashboard_setup',  $plugin_admin, 'wc_simple_waiting_list_widgets' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wc_simple_waiting_list_menu' );
+
+		$this->loader->add_action( 'wp_ajax_wc_simple_waiting_list_export_csv', $plugin_admin, 'wc_simple_waiting_list_export_csv' );
 	}
 
 	/**
@@ -175,7 +176,7 @@ class Wc_Simple_Waiting_List {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Wc_Simple_Waiting_List_Public( $this->get_plugin_name(), $this->get_version(), $this->metakey);
+		$plugin_public = new Wc_Simple_Waiting_List_Public( $this->get_plugin_name(), $this->get_version(), $this->metakey );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -225,5 +226,4 @@ class Wc_Simple_Waiting_List {
 	public function get_version() {
 		return $this->version;
 	}
-
 }

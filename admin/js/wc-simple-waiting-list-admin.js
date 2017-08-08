@@ -1,32 +1,21 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your admin-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+	$(".exportreminders").live('click',function()	{
+		var post_data = {
+		action: 'wc_simple_waiting_list_export_csv',
+		wc_simple_waiting_list_nonce: wc_simple_waiting_list_admin_vars.nonce
+		};
+
+		$.post(wc_simple_waiting_list_admin_vars.ajaxurl, post_data, function(response) {
+			if(response == 'fail') {
+				alert(wc_simple_waiting_list_admin_vars.error_message);
+			} else {
+				$('#Results').after('<a href="' + response + '">Download Report here '  + response +  ' </a><br/>');
+			}
+		});
+	  	return false;
+	});
+
 
 })( jQuery );
