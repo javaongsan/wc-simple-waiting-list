@@ -1,9 +1,12 @@
 /**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
+ * WC Simple Waiting List
+ * http://imakeplugins.com
+ *
+ * Copyright (c) 2018 Bob Ong
+ * Licensed under the GPLv2+ license.
  */
 
- #reminders table.shop_table {
+  #reminders table.shop_table {
     border: 1px solid rgba(0, 0, 0, .1);
     margin: 0 -1px 24px 0;
     text-align: left;

@@ -19,20 +19,23 @@
  * @subpackage Wc_Simple_Waiting_List/includes
  * @author     Bob Ong <ongsweesan@gmail.com>
  */
-
-class Wc_Simple_Waiting_List_Email extends WC_Email {
+class WCSWL_Email extends WC_Email {
 
 	public function __construct() {
-		$this->id 				= 'wc_simple_waiting_list_email';
-		$this->title 			= __( 'Waiting List', 'wc_simple_waiting_list' );
-		$this->description		= __( 'Send an email to customers when items is in stock', 'wc_simple_waiting_list' );
+		$this->id = 'wcswl_email';
+		$this->title = __( 'Waiting List', 'wc_simple_waiting_list' );
+		$this->description = __( 'Send an email to customers when items is in stock', 'wc_simple_waiting_list' );
 
-		$this->template_base 	= WC_SIMPLE_WAITING_LIST_MAIN_PATH . '/woocommerce/emails/'; 
-		$this->template_html 	= 'waiting-list.php';
-		$this->template_plain 	= 'plain/waiting-list.php';
+		$this->template_html = 'waiting-list.php';
+		$this->template_plain = 'plain/' . $this->template_html;
 
-		$this->subject 			= __( '{item} is in stock now!', 'wc_simple_waiting_list' );
-		$this->heading      	= __( '{item} is in stock now!', 'wc_simple_waiting_list' );
+		$this->template_base = plugin_dir_path( __FILE__ ) . '../woocommerce/emails/';
+		if ( file_exists( get_stylesheet_directory() . '/woocommerce/emails/' . $this->template_html ) && file_exists( get_stylesheet_directory() . '/woocommerce/emails/plain/' . $this->template_plain ) ) {
+			$this->template_base = get_stylesheet_directory() . '/woocommerce/emails/';
+		}
+
+		$this->subject = __( '{item} is in stock now!', 'wc_simple_waiting_list' );
+		$this->heading = __( '{item} is in stock now!', 'wc_simple_waiting_list' );
 
 		// Triggers
 		add_action( 'class_wc_simple_waiting_list_email_send_notification', array( $this, 'trigger' ), 10, 2 );
@@ -42,21 +45,21 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 
 	}
 
-	public function trigger( $product_id,  $user_email) {
+	public function trigger( $product_id, $user_email ) {
 		$product   = wc_get_product( $product_id );
 		if ( ! $product || ! is_object( $product ) ) {
 			return;
 		}
 
 		if ( $product ) {
-			$this->object 		= $product;
-			$this->recipient	= $user_email;
+			$this->object = $product;
+			$this->recipient = $user_email;
 
 			$this->find[] = '{item}';
 			$this->replace[] = $product->get_title();
 		}
 
-		if ( ! $this->is_enabled() || ! $this->get_recipient()  ) {
+		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return;
 		}
 
@@ -71,12 +74,12 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 	 */
 	public function get_content_html() {
 		return wc_get_template_html( $this->template_html, array(
-			'product_name' 		=> $this->object->get_title(),
-			'product_url' 		=> get_permalink( $this->object->get_id() ),
+			'product_name' => $this->object->get_title(),
+			'product_url' => get_permalink( $this->object->get_id() ),
 			'email_heading' => $this->get_heading(),
 			'sent_to_admin' => true,
 			'plain_text'    => false,
-			'email'			=> $this
+			'email' => $this,
 		) , false, $this->template_base );
 	}
 
@@ -87,12 +90,12 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 	 */
 	public function get_content_plain() {
 		return wc_get_template_html( $this->template_plain, array(
-			'product_name' 		=> $this->object->get_title(),
-			'product_url' 		=> get_permalink( $this->object->get_id() ),
+			'product_name' => $this->object->get_title(),
+			'product_url' => get_permalink( $this->object->get_id() ),
 			'email_heading' => $this->get_heading(),
 			'sent_to_admin' => true,
 			'plain_text'    => true,
-			'email'			=> $this
+			'email' => $this,
 		) , false, $this->template_base );
 	}
 
@@ -103,7 +106,7 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 				'title'         => __( 'Enable/Disable', 'wc_simple_waiting_list' ),
 				'type'          => 'checkbox',
 				'label'         => __( 'Enable this email notification', 'wc_simple_waiting_list' ),
-				'default'       => 'yes'
+				'default'       => 'yes',
 			),
 			'subject' => array(
 				'title'         => __( 'Subject', 'wc_simple_waiting_list' ),
@@ -111,7 +114,7 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 				'description'   => sprintf( __( 'This controls the email subject line. Leave blank to use the default subject: <code>%s</code>.', 'wc_simple_waiting_list' ), $this->subject ),
 				'placeholder'   => '',
 				'default'       => '',
-				'desc_tip'      => true
+				'desc_tip'      => true,
 			),
 			'heading' => array(
 				'title'         => __( 'Email Heading', 'wc_simple_waiting_list' ),
@@ -119,7 +122,7 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 				'description'   => sprintf( __( 'This controls the main heading contained within the email notification. Leave blank to use the default heading: <code>%s</code>.', 'wc_simple_waiting_list' ), $this->heading ),
 				'placeholder'   => '',
 				'default'       => '',
-				'desc_tip'      => true
+				'desc_tip'      => true,
 			),
 			'email_type' => array(
 				'title'         => __( 'Email type', 'wc_simple_waiting_list' ),
@@ -128,9 +131,8 @@ class Wc_Simple_Waiting_List_Email extends WC_Email {
 				'default'       => 'html',
 				'class'         => 'email_type wc-enhanced-select',
 				'options'       => $this->get_email_type_options(),
-				'desc_tip'      => true
-			)
+				'desc_tip'      => true,
+			),
 		);
 	}
-
 }
