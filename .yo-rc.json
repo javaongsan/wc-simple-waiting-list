@@ -1,0 +1,20 @@
+{
+  "generator-plugin-wp": {
+    "name": "WC Simple Waiting List",
+    "homepage": "http://imakeplugins.com",
+    "description": "A woocommerce extension to allow customers to leave their email address on a waiting list for out of stock products.",
+    "version": "1.0.6",
+    "author": "Bob Ong",
+    "authoremail": "bob@imakeplugins.com",
+    "authorurl": "http://imakeplugins.com",
+    "license": "GPLv2",
+    "slug": "wc-simple-waiting-list",
+    "classname": "WC_Simple_Waiting_List",
+    "mainclassname": "WC_Simple_Waiting_List",
+    "classprefix": "WCSWL_",
+    "prefix": "wc_simple_waiting_list",
+    "year": 2018,
+    "currentVersionWP": "4.8.1",
+    "plugingenversion": "0.20.2"
+  }
+}

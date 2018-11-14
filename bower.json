@@ -1,0 +1,18 @@
+{
+  "name": "wc-simple-waiting-list",
+  "description": "A woocommerce extension to allow customers to leave their email address on a waiting list for out of stock products.",
+  "license": "GPLv2",
+  "authors": [
+    "Bob Ong"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

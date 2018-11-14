@@ -1,0 +1,54 @@
+{
+  "name": "wc-simple-waiting-list",
+  "title": "WC Simple Waiting List",
+  "version": "1.0.8",
+  "description": "A woocommerce extension to allow customers to leave their email address on a waiting list for out of stock products.",
+  "author": {
+    "name": "Bob Ong",
+    "url": "http://imakeplugins.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:javaongsan/wc-simple-waiting-list.git"
+  },
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "ajv": "^6.5.3",
+    "autoprefixer": "latest",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "latest",
+    "babelify": "^8.0.0",
+    "bourbon": "latest",
+    "bourbon-neat": "latest",
+    "browser-sync": "latest",
+    "browserify-shim": "^3.8.14",
+    "css-mqpacker": "latest",
+    "del": "latest",
+    "eslint-config-wordpress": "latest",
+    "glob": "latest",
+    "grunt": "latest",
+    "grunt-browserify": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-compress": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-phpunit": "latest",
+    "grunt-sass": "^3.0.1",
+    "grunt-text-replace": "latest",
+    "grunt-usebanner": "^0.3.1",
+    "grunt-wp-deploy": "latest",
+    "grunt-wp-i18n": "latest",
+    "gruntify-eslint": "^5.0.0",
+    "load-grunt-tasks": "latest",
+    "minimist": "^1.2.0",
+    "node-sass": "^4.9.3"
+  },
+  "browserify-shim": {
+    "jquery": "global:jQuery"
+  },
+  "scripts": {
+    "version": "grunt version"
+  }
+}

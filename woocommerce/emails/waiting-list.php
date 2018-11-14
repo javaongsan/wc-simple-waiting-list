@@ -3,7 +3,7 @@
  * Request a Review email template
  *
  * @package 	WOOCOMMERCE SIMPLE WAITING LIST
- * @version     1.0.7
+ * @version     1.0.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
