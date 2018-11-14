@@ -11,7 +11,7 @@
  * Text Domain: wc-simple-waiting-list
  * Domain Path: /languages
 * WC requires at least:   3.0.0
- * WC tested up to:       3.4.6
+ * WC tested up to:       3.5.1
  *
  * @link    http://imakeplugins.com
  *
@@ -243,6 +243,8 @@ final class WC_Simple_Waiting_List {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
+		$charset_collate = $wpdb->get_charset_collate();
+
 		$sql = "CREATE TABLE {$wpdb->prefix}wswl_product_list_log (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
 			recipient tinytext NOT NULL,
@@ -371,6 +373,10 @@ final class WC_Simple_Waiting_List {
 
 		// Do checks for required classes / functions or similar.
 		// Add detailed messages to $this->activation_errors array.
+		if ( ! class_exists( 'woocommerce' ) ) {
+			$this->activation_errors[] = 'Woocommerce Plugin not install or actiavted!';
+			return false;
+		}
 		return true;
 	}
 
