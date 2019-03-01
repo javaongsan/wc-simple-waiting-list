@@ -1,8 +1,8 @@
 /**
- * WC Simple Waiting List - v1.0.9 - 2018-11-14
+ * WC Simple Waiting List - v1.0.9 - 2019-03-01
  * http://imakeplugins.com
  *
- * Copyright (c) 2018;
+ * Copyright (c) 2019;
  * Licensed GPLv2+
  */
 
@@ -34,7 +34,7 @@ window.WCSimpleWaitingList = window.WCSimpleWaitingList || {};
 
 	plugin.bindEvents = function () {
 
-		$('#register_user').live('click', function () {
+		$('#register_user').on('click', function () {
 			var product_id = $(this).data('product-id');
 			var user_email = $('#emailaddr').val();
 
@@ -74,7 +74,7 @@ window.WCSimpleWaitingList = window.WCSimpleWaitingList || {};
 			return false;
 		});
 
-		$('#deregister_user').live('click', function () {
+		$('#deregister_user').on('click', function () {
 			var product_id = $(this).data('product-id');
 			var user_email = $('#emailaddr').val();
 
