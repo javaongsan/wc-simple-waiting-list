@@ -12,9 +12,9 @@
     "url": "git@github.com:javaongsan/wc-simple-waiting-list.git"
   },
   "license": "GPL-3.0-or-later",
-  "devDependencies": {
-    "ajv": "latest",
+   "devDependencies": {
     "autoprefixer": "latest",
+    "babel-cli": "latest",
     "babel-preset-env": "latest",
     "babelify": "latest",
     "bourbon": "latest",
@@ -26,6 +26,7 @@
     "eslint-config-wordpress": "latest",
     "glob": "latest",
     "grunt": "latest",
+    "grunt-banner": "latest",
     "grunt-browserify": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-compress": "latest",
@@ -33,15 +34,13 @@
     "grunt-contrib-cssmin": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
-    "grunt-phpunit": "latest",
-    "grunt-sass": "latest",
+    "grunt-sass": "^3.0.1",
     "grunt-text-replace": "latest",
     "grunt-usebanner": "latest",
     "grunt-wp-deploy": "latest",
     "grunt-wp-i18n": "latest",
     "gruntify-eslint": "latest",
     "load-grunt-tasks": "latest",
-    "minimist": "latest",
     "node-sass": "latest"
   },
   "browserify-shim": {
