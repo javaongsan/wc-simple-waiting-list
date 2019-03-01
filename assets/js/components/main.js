@@ -21,7 +21,7 @@ window.WCSimpleWaitingList = window.WCSimpleWaitingList || {};
 	};
 
 	plugin.bindEvents = function() {
-		$( '.wcswl-export-reminders' ).live( 'click', function()	{
+		$( '.wcswl-export-reminders' ).on( 'click', function()	{
 			var postdata = {
 			action: 'wc_simple_waiting_list_export_csv',
 			wc_simple_waiting_list_nonce: wc_simple_waiting_list_vars.nonce

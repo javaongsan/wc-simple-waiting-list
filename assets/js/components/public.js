@@ -22,7 +22,7 @@ window.WCSimpleWaitingList = window.WCSimpleWaitingList || {};
 
 	plugin.bindEvents = function() {
 
-		$( '#register_user' ).live( 'click', function() {
+		$( '#register_user' ).on( 'click', function() {
 			var product_id = $( this ).data( 'product-id' );
 			var user_email = $( '#emailaddr' ).val();
 
@@ -62,7 +62,7 @@ window.WCSimpleWaitingList = window.WCSimpleWaitingList || {};
 			return false;
 		});
 
-		$( '#deregister_user' ).live( 'click', function() {
+		$( '#deregister_user' ).on( 'click', function() {
 			var product_id = $( this ).data( 'product-id' );
 			var user_email = $( '#emailaddr' ).val();
 

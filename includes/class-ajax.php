@@ -48,7 +48,6 @@ class WCSWL_Ajax {
 
 	public function export_csv() {
 		if ( wp_verify_nonce( $_POST['wc_simple_waiting_list_nonce'], 'wc-simple-waiting-list-nonce' ) ) {
-            error_log('xxx');
 			$results = $this->plugin->admin->export_reminders();
 			if ( $results ) {
 				echo $results;

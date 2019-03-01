@@ -3,8 +3,8 @@
 **Donate link:**       http://imakeplugins.com  
 **Tags:**  
 **Requires at least:** 4.4  
-**Tested up to:**      4.9.7
-**Stable tag:**        1.0.8  
+**Tested up to:**      5.1
+**Stable tag:**        1.0.9  
 **License:**           GPLv2  
 **License URI:**       http://www.gnu.org/licenses/gpl-2.0.html  
 **WC requires at least:**   3.0.0
@@ -47,7 +47,12 @@ Unlimited as many as woocommerce can support
 4. Join wating list for unregistered user.
 
 == Changelog ==
-= 1.0.8 - 14/11/2018 =
+= 1.0.8 - 01/3/2019 =
+* fixed variable products issues.
+* replace the jQuery .live function with .on.
+* update woocommerce compatibility 
+
+= 1.0.9 - 14/11/2018 =
 * fix activate plugin error.
 * update woocommerce compatibility 
 

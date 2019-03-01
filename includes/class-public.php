@@ -87,11 +87,7 @@ class WCSWL_Public {
 				return;
 			}
 
-			if ( $this->current_product->get_type() == 'variable' ) {
-				add_action( 'woocommerce_get_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 3 );
-			} else {
-				add_action( 'woocommerce_get_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 2 );
-			}
+			add_action( 'woocommerce_get_stock_html', array( $this, 'wc_simple_waiting_list_box_details' ), 20, 2 );
 		}
 	}
 
@@ -100,20 +96,14 @@ class WCSWL_Public {
 	 *
 	 * @since    1.0.6
 	 */
-	public function wc_simple_waiting_list_box_details( $html, $availability, $_product = false ) {
-		global $product;
-
-		if ( ! $_product ) {
-			$_product = $this->current_product;
-		}
-
+	public function wc_simple_waiting_list_box_details( $html, $_product ) {
 		if ( $_product->is_in_stock() ) {
 			return $html;
 		}
 
 		$user           = wp_get_current_user();
 		$product_type   = $_product->get_type();
-		$product_id     = ( $product_type == 'simple' ) ? $_product->get_id() : $_product->variation_id;
+		$product_id     = $_product->get_id();
 		$box = '<div class="wrap">';
 		$addstyle = 'display:none';
 		$removestyle = 'display:none';

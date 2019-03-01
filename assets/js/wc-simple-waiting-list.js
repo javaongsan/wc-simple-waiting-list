@@ -1,5 +1,5 @@
 /**
- * WC Simple Waiting List - v1.0.8 - 2018-11-14
+ * WC Simple Waiting List - v1.0.9 - 2018-11-14
  * http://imakeplugins.com
  *
  * Copyright (c) 2018;
@@ -33,7 +33,7 @@ window.WCSimpleWaitingList = window.WCSimpleWaitingList || {};
 	};
 
 	plugin.bindEvents = function () {
-		$('.wcswl-export-reminders').live('click', function () {
+		$('.wcswl-export-reminders').on('click', function () {
 			var postdata = {
 				action: 'wc_simple_waiting_list_export_csv',
 				wc_simple_waiting_list_nonce: wc_simple_waiting_list_vars.nonce

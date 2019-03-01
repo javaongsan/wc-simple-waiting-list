@@ -3,20 +3,20 @@
  * Plugin Name: WC Simple Waiting List
  * Plugin URI:  http://imakeplugins.com
  * Description: A woocommerce extension to allow customers to leave their email address on a waiting list for out of stock products.
- * Version:     1.0.8
+ * Version:     1.0.9
  * Author:      Bob Ong
  * Author URI:  http://imakeplugins.com
  * Donate link: http://imakeplugins.com
  * License:     GPLv2
  * Text Domain: wc-simple-waiting-list
  * Domain Path: /languages
-* WC requires at least:   3.0.0
- * WC tested up to:       3.5.1
+ * WC requires at least:   3.0.0
+ * WC tested up to:**      3.5.1
  *
  * @link    http://imakeplugins.com
  *
  * @package WC_Simple_Waiting_List
- * @version 1.0.8
+ * @version 1.0.9
  *
  */
 
@@ -73,7 +73,7 @@ final class WC_Simple_Waiting_List {
 	 * @var    string
 	 * @since  1.0.6
 	 */
-	const VERSION = '1.0.8';
+	const VERSION = '1.0.9';
 
 	/**
 	 * URL of plugin directory.
