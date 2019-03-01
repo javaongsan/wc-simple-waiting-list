@@ -31,7 +31,7 @@
     "grunt-contrib-clean": "latest",
     "grunt-contrib-compress": "latest",
     "grunt-contrib-copy": "latest",
-    "grunt-contrib-cssmin":"latest",
+    "grunt-contrib-cssmin": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-phpunit": "latest",
