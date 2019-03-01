@@ -15,8 +15,7 @@
   "devDependencies": {
     "ajv": "latest",
     "autoprefixer": "latest",
-    "babel-core": "latest",
-    "babel-preset-es2015": "latest",
+    "babel-preset-env": "latest",
     "babelify": "latest",
     "bourbon": "latest",
     "bourbon-neat": "latest",
