@@ -133,13 +133,15 @@ class WCSWL_Admin {
 						<?php
 						foreach ( $results as $data ) {
 							$product = new WC_product( $data->product_id );
-							echo '<tr><td>';
-							echo $product->get_name();
-							echo '</td><td>';
-							echo $data->email;
-							echo '</td><td>';
-							echo $data->created_date;
-							echo '</td></tr>';
+							if ( $product ) {
+								echo '<tr><td>';
+								echo $product->get_name();
+								echo '</td><td>';
+								echo $data->email;
+								echo '</td><td>';
+								echo $data->created_date;
+								echo '</td></tr>';
+							}
 						}
 						?>
 						</tbody>
