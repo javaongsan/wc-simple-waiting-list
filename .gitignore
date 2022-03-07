@@ -81,3 +81,5 @@ node_modules/
 *.json
 *.xml
 *.yml
+
+bin/
