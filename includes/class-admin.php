@@ -101,25 +101,18 @@ class WCSWL_Admin {
 	}
 
 	public function add_menu() {
-		add_menu_page(
-			__( 'Waiting List', 'wc-simple-waiting-list' ),
-			'Waiting List',
-			'manage_options',
-			'wc-simple-waiting-list',
-			array(
-				$this,
-				'wc_simple_waiting_list_page',
-			)
-		);
+		add_menu_page( __( 'Waiting List', 'wc-simple-waiting-list' ), 'Waiting List', 'manage_options', 'wc-simple-waiting-list', array( $this, 'page_display' ) );
+		add_submenu_page( 'wc-simple-waiting-list', 'Waiting List', 'Waiting List', 'manage_options', 'wc-simple-waiting-list', array( $this, 'page_display' ) );
+		add_submenu_page( 'wc-simple-waiting-list', 'Feedback', 'Feedback', 'manage_options', 'wc-simple-waiting-list-feedback', array( $this->plugin->feedback, 'page_display' ) );
 	}
 
-	public function wc_simple_waiting_list_page() {
+	public function page_display() {
 		$results = $this->plugin->db->get_user_reminders();
 		$header_columns = $this->header_columns();
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Waiting List', 'wc-simple-waiting-list' ); ?></h1>
-			<p><a href='#/' class='wcswl-export-reminders button' > Export </a></p>
+			<p><a href='#/' class='wcswl-export-reminders button btn' > Export </a></p>
 			<div id="reminders">
 				<table class="shop_table shop_table_responsive">
 					<thead>
@@ -132,7 +125,8 @@ class WCSWL_Admin {
 					<tbody>
 						<?php
 						foreach ( $results as $data ) {
-							$product = new WC_product( $data->product_id );
+//							$product = new WC_product( $data->product_id );
+                            $product = wc_get_product( $product_id );
 							if ( $product ) {
 								echo '<tr><td>';
 								echo $product->get_name();

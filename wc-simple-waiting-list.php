@@ -3,7 +3,7 @@
  * Plugin Name: WC Simple Waiting List
  * Plugin URI:  http://imakeplugins.com
  * Description: A woocommerce extension to allow customers to leave their email address on a waiting list for out of stock products.
- * Version:     1.0.10
+ * Version:     1.0.11
  * Author:      Bob Ong
  * Author URI:  http://imakeplugins.com
  * Donate link: http://imakeplugins.com
@@ -11,12 +11,12 @@
  * Text Domain: wc-simple-waiting-list
  * Domain Path: /languages
  * WC requires at least:   3.0.0
- * WC tested up to:**      3.5.1
+ * WC tested up to:**      3.6.2
  *
  * @link    http://imakeplugins.com
  *
  * @package WC_Simple_Waiting_List
- * @version 1.0.10
+ * @version 1.0.11
  *
  */
 
@@ -73,7 +73,7 @@ final class WC_Simple_Waiting_List {
 	 * @var    string
 	 * @since  1.0.6
 	 */
-	const VERSION = '1.0.10';
+	const VERSION = '1.0.11';
 
 	/**
 	 * URL of plugin directory.
@@ -164,6 +164,14 @@ final class WC_Simple_Waiting_List {
 	protected $db;
 
 	/**
+	 * Instance of WCSWL_Feedback
+	 *
+	 * @since1.0.11
+	 * @var WCSWL_Feedback
+	 */
+	protected $feedback;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since   1.0.6
@@ -202,6 +210,7 @@ final class WC_Simple_Waiting_List {
 		$this->admin = new WCSWL_Admin( $this );
 		$this->ajax = new WCSWL_Ajax( $this );
 		$this->db = new WCSWL_Db( $this );
+		$this->feedback = new WCSWL_Feedback( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -231,6 +240,7 @@ final class WC_Simple_Waiting_List {
 		// Make sure any rewrite functionality has been loaded.
 		flush_rewrite_rules();
 		$this->create_table();
+		add_option( 'wswl_review', false );
 	}
 
 	/**
@@ -266,7 +276,7 @@ final class WC_Simple_Waiting_List {
 
 		dbDelta( $sql );
 
-		add_option( 'wswl_db_version',  self::VERSION );
+		add_option( 'wswl_db_version', self::VERSION );
 	}
 
 	/**
@@ -287,8 +297,11 @@ final class WC_Simple_Waiting_List {
 	 */
 	public function drop_table() {
 		global $wpdb;
-		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wswl_product_list_log" );
-		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wswl_product_list" );
+		if ( ! class_exists( 'WC_Simple_Waiting_List_Pro' ) ) {
+			$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wswl_product_list_log" );
+			$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wswl_product_list" );
+		}
+		delete_option( 'wswl_review' );
 		delete_option( 'wswl_db_version' );
 	}
 
@@ -377,6 +390,12 @@ final class WC_Simple_Waiting_List {
 			$this->activation_errors[] = 'Woocommerce Plugin not install or actiavted!';
 			return false;
 		}
+
+		if ( class_exists( 'WC_Simple_Waiting_List_Pro' ) ) {
+			$this->activation_errors[] = 'Deactivate WC Simple Waiting List Pro Version and try again!';
+			return false;
+		}
+
 		return true;
 	}
 
@@ -429,6 +448,7 @@ final class WC_Simple_Waiting_List {
 			case 'admin':
 			case 'ajax':
 			case 'db':
+			case 'feedback':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );

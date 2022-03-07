@@ -1,5 +1,5 @@
 /**
- * WC Simple Waiting List - v1.0.10 - 2019-04-17
+ * WC Simple Waiting List - v1.0.11 - 2019-05-03
  * http://imakeplugins.com
  *
  * Copyright (c) 2019;

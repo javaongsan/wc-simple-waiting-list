@@ -44,6 +44,8 @@ class WCSWL_Ajax {
 		add_action( 'wp_ajax_nopriv_wc_simple_waiting_list_register_user', array( $this, 'register_user' ) );
 		add_action( 'wp_ajax_wc_simple_waiting_list_user_deregister_user', array( $this, 'deregister_user' ) );
 		add_action( 'wp_ajax_nopriv_wc_simple_waiting_list_user_deregister_user', array( $this, 'deregister_user' ) );
+		add_action( 'wp_ajax_wc_simple_waiting_list_update_review', array( $this, 'wc_simple_waiting_list_update_review' ) );
+		add_action( 'wp_ajax_wc_simple_waiting_list_feature_request', array( $this, 'wc_simple_waiting_list_feature_request' ) );
 	}
 
 	public function export_csv() {
@@ -72,6 +74,28 @@ class WCSWL_Ajax {
 	public function deregister_user() {
 		if ( isset( $_POST['user_email'] ) && isset( $_POST['product_id'] ) && wp_verify_nonce( $_POST['wc_simple_waiting_list_nonce'], 'wc-simple-waiting-list-public-nonce' ) ) {
 			if ( $this->plugin->public->wc_simple_waiting_list_deregister( $_POST['user_email'],  $_POST['product_id'] ) ) {
+				echo 'success';
+			} else {
+				echo 'fail';
+			}
+		}
+		die();
+	}
+
+	public function wc_simple_waiting_list_update_review() {
+		if ( wp_verify_nonce( $_POST['wc_simple_waiting_list_nonce'], 'wc-simple-waiting-list-nonce' ) ) {
+			if ( $this->plugin->feedback->update_review( $_POST['user_email'],  $_POST['product_id'] ) ) {
+				echo 'success';
+			} else {
+				echo 'fail';
+			}
+		}
+		die();
+	}
+
+	public function wc_simple_waiting_list_feature_request() {
+		if ( isset( $_POST['data'] ) && wp_verify_nonce( $_POST['wc_simple_waiting_list_nonce'], 'wc-simple-waiting-list-nonce' ) ) {
+			if ( $this->plugin->feedback->feature_request( $_POST['data'] ) ) {
 				echo 'success';
 			} else {
 				echo 'fail';

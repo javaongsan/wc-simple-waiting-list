@@ -133,7 +133,7 @@ module.exports = function (grunt) {
                     '!Dockunit.json',
                     '!Gruntfile.js',
                     '!package.json',
-                    '!phpunit.xml'
+                    '!*.xml'
                 ],
                 dest: 'release/' + pkg.version + '/'
             },
@@ -161,7 +161,16 @@ module.exports = function (grunt) {
                 options: {
                     plugin_slug: '<%= pkg.name %>',
                     build_dir: 'release/svn/',
-                    assets_dir: 'assets/repo/'
+                    assets_dir: 'assets/repo/',
+                    deploy_trunk: true
+                }
+            },
+            update: {
+                options: {
+                    plugin_slug: '<%= pkg.name %>',
+                    build_dir: 'release/svn/',
+                    assets_dir: 'assets/repo/',
+                    deploy_trunk: false
                 }
             }
         },
@@ -240,7 +249,14 @@ module.exports = function (grunt) {
         'replace:readme_txt',
         'copy',
         'compress',
-        'wp_deploy'
+        'wp_deploy:dist'
+    ]);
+    grunt.registerTask('update_tag', [
+        'clean:release',
+        'replace:readme_txt',
+        'copy',
+        'compress',
+        'wp_deploy:update'
     ]);
     grunt.util.linefeed = '\n';
 };
